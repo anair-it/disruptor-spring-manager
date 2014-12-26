@@ -110,11 +110,10 @@ Add to log4j.properties of your application to monitor disruptor activities
     
 JMX
 ---
-1. Create/configure your local JMX MBean server     
-2. Add the below spring configuration and pass in the mbeanServer bean         
+1.Create/configure your local JMX MBean server     
+2.Add the below spring configuration and pass in the mbeanServer bean:
 	
-	<bean class="org.anair.disruptor.jmx.JmxDisruptorManager"
-		p:mBeanServer-ref="mbeanServer"/>        
+	<bean class="org.anair.disruptor.jmx.JmxDisruptorManager" 
+		p:mBeanServer-ref="mbeanServer"/> 
 3.On application context startup, all Disruptor beans will be automatically identified and registered as MBeans         
-4. View Disruptor MBeans through JConsole/Visual VM     
-
+4.View Disruptor MBeans through JConsole/Visual VM     
