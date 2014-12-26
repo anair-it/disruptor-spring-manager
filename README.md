@@ -19,6 +19,11 @@ Software Prerequisites
 2. Maven 3+
 3. Git
 
+Versions used
+-----
+- Spring: 3.2.3-RELEASE    
+- LMAX Disruptor: 3.3.0       
+
 Example project
 ----
 Checkout [disruptor-billing](/disruptor-billing) with usage examples.    
