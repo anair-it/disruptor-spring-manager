@@ -26,7 +26,7 @@ Versions used
 
 Example project
 ----
-Checkout [disruptor-billing](/disruptor-billing) with usage examples.    
+Checkout [disruptor-billing](https://github.com/anair-it/disruptor-billing-example) with usage examples.    
 
 How-to
 ----
