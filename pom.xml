@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.anair.disruptor</groupId>
+	<artifactId>disruptor-spring-manager</artifactId>
+	<version>0.0.1</version>
+	<name>Spring managed LMAX Disruptor</name>
+	<description>This is a spring and maven managed version of the LMAX Disruptor. Reference: http://lmax-exchange.github.io/disruptor/</description>
+
+	<inceptionYear>2014</inceptionYear>
+
+	<developers>
+		<developer>
+			<name>Anoop Nair</name>
+			<email>anoopnair.it@gmail.com</email>
+		</developer>
+	</developers>
+	
+	<properties>
+		<lmax.disruptor.version>3.3.0</lmax.disruptor.version>
+		<spring.version>3.2.3.RELEASE</spring.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>${lmax.disruptor.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-aop</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
