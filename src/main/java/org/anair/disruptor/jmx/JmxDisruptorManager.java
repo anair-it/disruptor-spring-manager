@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContextAware;
  * Identify all disruptor beans and register them as MBeans.
  * <p> Add this to your spring configuration file and pass in the mbeanserver.
  * <pre>{@code
- *  <bean id="jmxDisruptorMBeans" class="org.anair.disruptor.jmx.JmxDisruptorManager"
+ *  <bean class="org.anair.disruptor.jmx.JmxDisruptorManager"
 		p:mBeanServer-ref="mbeanServer"/>
  * }</pre>
  * 
@@ -44,7 +44,7 @@ public class JmxDisruptorManager implements ApplicationContextAware{
 
 	private Map<String, DisruptorConfig> getDisruptorMBeans() {
 		Map<String, DisruptorConfig> beans = this.applicationContext.getBeansOfType(DisruptorConfig.class);
-		LOG.debug("Found "+beans.size() + " Disruptor beans");
+		LOG.debug("Identified "+beans.size() + " Disruptor beans");
 		return beans;
 	}
 	

@@ -1,6 +1,5 @@
 package org.anair.disruptor;
 
-import com.lmax.disruptor.EventTranslator;
 
 /**
  * This defines a Disruptor lifecycle.
@@ -18,13 +17,6 @@ public interface DisruptorLifecycle<T> {
 	 * 
 	 */
 	void init();
-	
-	/**
-	 * Publish an event to the ring buffer using event translator.
-	 * 
-	 * @param translator
-	 */
-	void publish(EventTranslator<T> eventTranslator);
 	
 	/**
 	 * Shutdown Disruptor and Executor in a controlled manner after all ring buffer events are processed. 

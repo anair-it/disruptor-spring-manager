@@ -61,7 +61,7 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
         }else if (attribute.getName().equals("ProducerType")) {
         	return "Ring buffer producer type. Can be SINGLE or MULTI.";
         }else if (attribute.getName().equals("WaitStrategyType")) {
-        	return "Ring buffer wait strategy. Can be one of BLOCKING, YIELDING, BUSY_SPIN.";
+        	return "Ring buffer wait strategy. Can be one of BLOCKING, YIELDING, BUSY_SPIN etc.";
         }else if (attribute.getName().equals("CurrentLocation")) {
         	return "Current Ring buffer slot location ready to be consumed.";
         }else if (attribute.getName().equals("RemainingCapacity")) {
@@ -164,17 +164,17 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 
 	@Override
 	public int getTotalCapacity() {
-		return disruptorConfig.getTotalCapacity();
+		return disruptorConfig.getRingBufferSize();
 	}
 
 	@Override
 	public String getProducerType() {
-		return disruptorConfig.getProducerType();
+		return disruptorConfig.getProducerType().name();
 	}
 
 	@Override
 	public String getWaitStrategyType() {
-		return disruptorConfig.getWaitStrategyType();
+		return disruptorConfig.getWaitStrategyType().name();
 	}
 
 	@Override

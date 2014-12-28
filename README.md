@@ -30,14 +30,14 @@ Checkout [disruptor-billing](https://github.com/anair-it/disruptor-billing-examp
 
 How-to
 ----
-1. Create Event Publisher(s) by implementing org.anair.pubilsher      
+1. Create Event Publisher(s) by implementing org.anair.disruptor.pubilsher.EventPublisher      
 2. Create Event Processors by implementing com.lmax.disruptor.EventHandler       
 3. Create Event Factory to represent the model object stored in the ring buffer              
 4. Create Event Translator to publish data to the ring buffer   
 5. Create a spring bean to configure and create a disruptor.
 
 Required values:    
-- Executor Thread name: This will help in debugging disruptor logs by looking for the thread name.    
+- Executor Thread name: Give a name to the thread the disruptor will be working on. This will help in debugging disruptor logs by looking for the thread name.    
 - EventFactory: Factory wrapper around the model object. This is used to prepare the ring buffer with the model type objects.      
 - EventHandlerChain: Design the dependency barrier and event processor/consumer dependencies in a chained manner.        
  
