@@ -78,7 +78,7 @@ public class DisruptorConfig<T> extends BaseDisruptorConfigurator<T>{
 	
 	@Override
 	protected void disruptorEventHandler() {
-		Validate.notEmpty(eventHandlerChain);
+		Validate.notEmpty(eventHandlerChain, "Define a Event Handler Chain.");
 		disruptorEventHandlerChain();
 	}
 

@@ -15,7 +15,7 @@
 			<email>anoopnair.it@gmail.com</email>
 		</developer>
 	</developers>
-	
+
 	<properties>
 		<lmax.disruptor.version>3.3.0</lmax.disruptor.version>
 		<spring.version>3.2.3.RELEASE</spring.version>
@@ -45,18 +45,35 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.4</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8</version>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant-junit</artifactId>
+			<version>1.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-velocity</artifactId>
+			<version>1.1.4.RELEASE</version>
 		</dependency>
 	</dependencies>
 </project>

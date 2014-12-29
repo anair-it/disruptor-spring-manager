@@ -14,11 +14,11 @@ import com.lmax.disruptor.ExceptionHandler;
  */
 public class DisruptorExceptionHandler implements ExceptionHandler {
 	private static final Logger LOG = Logger.getLogger(DisruptorExceptionHandler.class);
-	String errorPrefix = "Ringbuffer Disruptor failed for thread: ";
+	protected String errorPrefix = "Ringbuffer Disruptor failed for thread: ";
 
 	
 	public DisruptorExceptionHandler(String threadName) {
-		this.errorPrefix+= threadName;
+		this.errorPrefix+= threadName + " | ";
 	}
 
 	@Override
@@ -33,6 +33,8 @@ public class DisruptorExceptionHandler implements ExceptionHandler {
 		str.append("Exception message: ");
 		str.append(ex.getMessage());
 		LOG.error(str.toString(), ex);
+		
+		throw new RuntimeException(ex);
 	}
 
 	@Override

@@ -37,7 +37,7 @@ public abstract class AbstractDisruptorLifecycleManager<T> implements DisruptorL
 		LOG.debug("Disruptor and executor '" + getThreadName() + "' is going to shutdown.");
 		executor.shutdownNow();
 		disruptor.halt();
-		LOG.info("Disruptor and executor '" + getThreadName() + "' has shutdown.");
+		LOG.info("Disruptor and executor '" + getThreadName() + "' has halted.");
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public abstract class AbstractDisruptorLifecycleManager<T> implements DisruptorL
 			LOG.debug("Disruptor and executor '" + getThreadName() + "' is going to shutdown in " + time + TimeUnit.SECONDS);
 			disruptor.shutdown(time, TimeUnit.SECONDS);
 			executor.awaitTermination(time, TimeUnit.SECONDS);
-			LOG.debug("Disruptor and executor '" + getThreadName() + "' has shutdown.");
+			LOG.info("Disruptor and executor '" + getThreadName() + "' has shutdown after " + time + " seconds.");
 		} catch(InterruptedException e) {
 			Thread.currentThread().interrupt();
 		} catch (TimeoutException e) {

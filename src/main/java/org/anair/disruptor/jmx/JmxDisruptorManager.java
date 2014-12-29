@@ -5,6 +5,7 @@ import java.util.Map;
 import javax.management.MBeanServer;
 
 import org.anair.disruptor.DisruptorConfig;
+import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -39,7 +40,11 @@ public class JmxDisruptorManager implements ApplicationContextAware{
 				LOG.error("Error registering Disruptor MBean.", e);
 			}
 		}
-		LOG.debug("All Disruptor beans regsitered in the MBeanServer");
+		if(MapUtils.isEmpty(disruptorsMBeanMap)){
+			LOG.warn("No Disruptor beans identified.");
+		}else{
+			LOG.debug("All Disruptor beans regsitered in the MBeanServer");	
+		}
 	}
 
 	private Map<String, DisruptorConfig> getDisruptorMBeans() {

@@ -29,11 +29,12 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 	
 	private DisruptorConfig disruptorConfig;
 	private ObjectName objectName;
-	
+	private String beanName;
 	
 	public JmxDisruptor(DisruptorConfig disruptorConfig, String beanName) throws NotCompliantMBeanException {
 		super(JmxDisruptorMBean.class);
 		this.disruptorConfig = disruptorConfig;
+		this.beanName = beanName;
 		objectName = createObjectName(beanName);
 	}
 	
@@ -42,7 +43,7 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 	 * @see javax.management.StandardMBean#getDescription(javax.management.MBeanInfo)
 	 */
 	protected String getDescription(MBeanInfo info) {
-        return "Spring managed LMAX Disruptor bean";
+        return "Spring managed LMAX Disruptor bean: " + beanName;
     }
 	
 	
@@ -116,7 +117,7 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
         ObjectName objectName = null;
         try {
 			objectName = new ObjectName(DISRUPTOR_JMX_MBEAN_NAME + disruptorBeanName);
-			LOG.info(objectName.getCanonicalName() + " MBean defined for Disruptors.");
+			LOG.info(objectName.getCanonicalName() + " MBean defined.");
 		} catch (Exception e) {
 			LOG.error("Error creating Disruptor Bean ObjectName. ", e);
 		}
