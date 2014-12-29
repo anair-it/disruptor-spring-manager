@@ -7,6 +7,7 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
+import javax.management.NotCompliantMBeanException;
 
 import org.anair.disruptor.DisruptorConfig;
 import org.anair.disruptor.WaitStrategyType;
@@ -34,11 +35,20 @@ public class JmxDisruptorTest {
 		mockMBeanParameterInfo = createMock(MBeanParameterInfo.class);
 		
 		jmxDisruptor = new JmxDisruptor(mockDisruptorConfig, "disruptorBean");
-		
-		assertEquals("disruptor-spring:name=disruptorBean,type=disruptor" , jmxDisruptor.getObjectName().getCanonicalName());
 		assertNotNull(mockDisruptorConfig);
 	}
 
+	@Test
+	public void test_getObjectName_valid() {
+		assertEquals("disruptor-spring:name=disruptorBean,type=disruptor" , jmxDisruptor.getObjectName().getCanonicalName());
+	}
+	
+	@Test
+	public void test_getObjectName_invalidFormat() throws NotCompliantMBeanException {
+		jmxDisruptor = new JmxDisruptor(mockDisruptorConfig, "asd:dfdf;");
+		assertNull(jmxDisruptor.getObjectName());
+	}
+	
 	@Test
 	public void test_getMBeanDescription() {
 		replay(mockMBeanInfo);
@@ -95,6 +105,11 @@ public class JmxDisruptorTest {
 		assertEquals("Remaining slots in the ring buffer.", jmxDisruptor.getDescription(mockMBeanAttribute));
 		verify(mockMBeanAttribute);
 		reset(mockMBeanAttribute);
+		
+		expect(mockMBeanAttribute.getName()).andReturn("dummy").anyTimes();
+		replay(mockMBeanAttribute);
+		assertNull(jmxDisruptor.getDescription(mockMBeanAttribute));
+		verify(mockMBeanAttribute);
 	}
 	
 	@Test
@@ -128,27 +143,40 @@ public class JmxDisruptorTest {
 		assertEquals("Publish the specified sequence to the ring buffer.", jmxDisruptor.getDescription(mockMBeanOperation));
 		verify(mockMBeanOperation);
 		reset(mockMBeanOperation);
+		
+		expect(mockMBeanOperation.getName()).andReturn("dummy").anyTimes();
+		replay(mockMBeanOperation);
+		assertNull(jmxDisruptor.getDescription(mockMBeanOperation));
+		verify(mockMBeanOperation);
 	}
 	
 	@Test
 	public void test_getMBeanOperationParameterDescription() {
-		expect(mockMBeanOperation.getName()).andReturn("awaitAndShutdown");
+		expect(mockMBeanOperation.getName()).andReturn("awaitAndShutdown").anyTimes();
 		replay(mockMBeanOperation);
 		assertEquals("Time in seconds", jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 0));
+		assertNull(jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 1));
 		verify(mockMBeanOperation);
 		reset(mockMBeanOperation);
 		
 		expect(mockMBeanOperation.getName()).andReturn("resetRingbuffer").anyTimes();
 		replay(mockMBeanOperation);
 		assertEquals("Ring buffer sequence", jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 0));
+		assertNull(jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 1));
 		verify(mockMBeanOperation);
 		reset(mockMBeanOperation);
 		
 		expect(mockMBeanOperation.getName()).andReturn("publishToRingbuffer").anyTimes();
 		replay(mockMBeanOperation);
 		assertEquals("Ring buffer sequence", jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 0));
+		assertNull(jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 1));
 		verify(mockMBeanOperation);
 		reset(mockMBeanOperation);
+		
+		expect(mockMBeanOperation.getName()).andReturn("dummy").anyTimes();
+		replay(mockMBeanOperation);
+		assertNull(jmxDisruptor.getDescription(mockMBeanOperation, mockMBeanParameterInfo, 0));
+		verify(mockMBeanOperation);
 	}
 	
 	@Test 

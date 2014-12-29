@@ -74,5 +74,26 @@ public class AbstractDisruptorLifecycleManagerTest {
 		disruptorLifecycleManager.awaitAndShutdown(1);
 		verify(mockDisruptor, mockExecutor);
 	}
+	
+	@Test
+	public void test_awaitAndShutdown_InterruptedException() throws TimeoutException, InterruptedException {
+		mockDisruptor.shutdown(1, TimeUnit.SECONDS);
+		expect(mockExecutor.awaitTermination(1, TimeUnit.SECONDS)).andThrow(new InterruptedException());
+		
+		replay(mockDisruptor, mockExecutor);
+		
+		disruptorLifecycleManager.awaitAndShutdown(1);
+		verify(mockDisruptor, mockExecutor);
+	}
+	
+	@Test
+	public void test_awaitAndShutdown_TimeoutException() throws TimeoutException, InterruptedException {
+		mockDisruptor.shutdown(1, TimeUnit.SECONDS);
+		expectLastCall().andThrow(TimeoutException.INSTANCE);
+		replay(mockDisruptor);
+		
+		disruptorLifecycleManager.awaitAndShutdown(1);
+		verify(mockDisruptor);
+	}
 
 }

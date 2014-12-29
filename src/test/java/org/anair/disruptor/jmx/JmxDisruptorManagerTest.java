@@ -52,6 +52,21 @@ public class JmxDisruptorManagerTest {
 	}
 	
 	@Test
+	public void test_registerDisruptorMBeans_exception() throws InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
+		Map<String, DisruptorConfig> disruptorBeanMap = new HashMap<String, DisruptorConfig>();
+		disruptorBeanMap.put("bean1", new DisruptorConfig());
+		expect(mockApplicationContext.getBeansOfType(DisruptorConfig.class)).andReturn(disruptorBeanMap);
+		
+		expect(mockMBeanServer.registerMBean(isA(JmxDisruptor.class), isA(ObjectName.class)))
+			.andThrow(new MBeanRegistrationException(new Exception()));
+		
+		replay(mockApplicationContext, mockMBeanServer);
+		manager.setApplicationContext(mockApplicationContext);
+		
+		verify(mockApplicationContext, mockMBeanServer);
+	}
+	
+	@Test
 	public void test_registerDisruptorMBeans_disruptorBeans_found() throws InstanceAlreadyExistsException, MBeanRegistrationException, NotCompliantMBeanException {
 		Map<String, DisruptorConfig> disruptorBeanMap = new HashMap<String, DisruptorConfig>();
 		disruptorBeanMap.put("bean1", new DisruptorConfig());
