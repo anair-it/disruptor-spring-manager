@@ -32,6 +32,28 @@ public class DisruptorConfigTest {
 	public void test_EventHandlerChain_null() {
 		disruptorConfig.init();
 	}
+
+	/**
+	 * Publisher -> Ring buffer ---> Consumer A 
+	 * Look at the graph that gets printed by log4j.
+	 */
+	@Test
+	public void test_publish_single_eventprocessor_topology() {
+		ConsumerA consumerA = new ConsumerA();
+		
+		EventHandlerChain<String> eventHandlerChain1 = new EventHandlerChain<String>(new EventHandler[]{consumerA});
+		
+		disruptorConfig.setEventHandlerChain(new EventHandlerChain[]{eventHandlerChain1});
+		disruptorConfig.init();
+		
+		disruptorConfig.publish(new EventTranslator<String>() {
+
+			@Override
+			public void translateTo(String event, long sequence) {
+				event = "hi there";
+			}
+		});
+	}
 	
 	/**
 	 * Publisher -> Ring buffer ---> Consumer A -> Consumer B1 -> Consumer D 
