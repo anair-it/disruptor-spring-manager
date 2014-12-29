@@ -48,17 +48,14 @@ Default values, if not provided through Spring configuration:
 
 The spring configuration is based on the Consumer Dependency diamond graph that looks like this:
 
-	                                       |                                       |                                                    |
-	                                       |                                       |                                                    |
-	                                       |      journalBillingEventProcessor     |      billingBusinessEventProcessor                 |
-	                                       |     /                                 |     /                                              |
-	                                       |    /                                  |    /                                               |
-	billingEventPublisher -> Ring Buffer ->|   -                                   |   -  corporateBillingBusinessEventProcessor        | -billingOutboundFormattingEventProcessor
-	                                       |    \                                  |    \                                               |
-	                                       |     \                                 |     \                                              |
-	                                       |      billingValidationEventProcessor  |      customerSpecificBillingBusinessEventProcessor |
-	                                       |                                       |                                                    |
-	                                       |                                       |                                                    |
+
+	                                       |     journalBillingEventProcessor     |     billingBusinessEventProcessor                 |
+	                                       |    /                                 |    /                                              |
+	                                       |   /                                  |   /                                               |
+	billingEventPublisher -> Ring Buffer ->|  -                                   |  -  corporateBillingBusinessEventProcessor        | -billingOutboundFormattingEventProcessor
+	                                       |   \                                  |   \                                               |
+	                                       |    \                                 |    \                                              |
+	                                       |     billingValidationEventProcessor  |     customerSpecificBillingBusinessEventProcessor |
 
 
 Spring configuration:    
