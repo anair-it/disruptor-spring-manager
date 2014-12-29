@@ -31,26 +31,25 @@ public class JmxDisruptorManager implements ApplicationContextAware{
 	
 	private void registerDisruptorMBeans()  {
 		Map<String, DisruptorConfig> disruptorsMBeanMap = getDisruptorMBeans();
-		for(Map.Entry<String, DisruptorConfig> entry: disruptorsMBeanMap.entrySet()){
-			try {
-				JmxDisruptor jmxDisruptor = new JmxDisruptor(entry.getValue(), entry.getKey());
-				mBeanServer.registerMBean(jmxDisruptor, jmxDisruptor.getObjectName());
-				LOG.debug(entry.getKey() + " Disruptor bean is resgistered in the MBeanServer.");
-			} catch (Exception e) {
-				LOG.error("Error registering Disruptor MBean.", e);
-			}
-		}
+		
 		if(MapUtils.isEmpty(disruptorsMBeanMap)){
 			LOG.warn("No Disruptor beans identified.");
 		}else{
-			LOG.debug("All Disruptor beans regsitered in the MBeanServer");	
+			for(Map.Entry<String, DisruptorConfig> entry: disruptorsMBeanMap.entrySet()){
+				try {
+					JmxDisruptor jmxDisruptor = new JmxDisruptor(entry.getValue(), entry.getKey());
+					mBeanServer.registerMBean(jmxDisruptor, jmxDisruptor.getObjectName());
+					LOG.debug(entry.getKey() + " Disruptor bean is resgistered in the MBeanServer.");
+				} catch (Exception e) {
+					LOG.error("Error registering Disruptor MBean.", e);
+				}
+			}
+			LOG.debug(disruptorsMBeanMap.size() + " Disruptor beans regsitered in the MBeanServer");	
 		}
 	}
 
 	private Map<String, DisruptorConfig> getDisruptorMBeans() {
-		Map<String, DisruptorConfig> beans = this.applicationContext.getBeansOfType(DisruptorConfig.class);
-		LOG.debug("Identified "+beans.size() + " Disruptor beans");
-		return beans;
+		return this.applicationContext.getBeansOfType(DisruptorConfig.class);
 	}
 	
 	@Override

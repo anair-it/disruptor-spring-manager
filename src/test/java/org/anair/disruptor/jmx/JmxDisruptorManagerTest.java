@@ -42,6 +42,13 @@ public class JmxDisruptorManagerTest {
 		manager.setApplicationContext(mockApplicationContext);
 		
 		verify(mockApplicationContext);
+		reset(mockApplicationContext);
+		
+		expect(mockApplicationContext.getBeansOfType(DisruptorConfig.class)).andReturn(null);
+		replay(mockApplicationContext);
+		manager.setApplicationContext(mockApplicationContext);
+		
+		verify(mockApplicationContext);
 	}
 	
 	@Test
