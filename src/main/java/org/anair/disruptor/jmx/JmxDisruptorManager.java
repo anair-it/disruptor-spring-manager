@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.management.MBeanServer;
 
-import org.anair.disruptor.DisruptorConfig;
+import org.anair.disruptor.DefaultDisruptorConfig;
 import org.apache.commons.collections.MapUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
@@ -30,12 +30,12 @@ public class JmxDisruptorManager implements ApplicationContextAware{
 	private MBeanServer mBeanServer;
 	
 	private void registerDisruptorMBeans()  {
-		Map<String, DisruptorConfig> disruptorsMBeanMap = getDisruptorMBeans();
+		Map<String, DefaultDisruptorConfig> disruptorsMBeanMap = getDisruptorMBeans();
 		
 		if(MapUtils.isEmpty(disruptorsMBeanMap)){
 			LOG.warn("No Disruptor beans identified.");
 		}else{
-			for(Map.Entry<String, DisruptorConfig> entry: disruptorsMBeanMap.entrySet()){
+			for(Map.Entry<String, DefaultDisruptorConfig> entry: disruptorsMBeanMap.entrySet()){
 				try {
 					JmxDisruptor jmxDisruptor = new JmxDisruptor(entry.getValue(), entry.getKey());
 					mBeanServer.registerMBean(jmxDisruptor, jmxDisruptor.getObjectName());
@@ -48,8 +48,8 @@ public class JmxDisruptorManager implements ApplicationContextAware{
 		}
 	}
 
-	private Map<String, DisruptorConfig> getDisruptorMBeans() {
-		return this.applicationContext.getBeansOfType(DisruptorConfig.class);
+	private Map<String, DefaultDisruptorConfig> getDisruptorMBeans() {
+		return this.applicationContext.getBeansOfType(DefaultDisruptorConfig.class);
 	}
 	
 	@Override

@@ -12,19 +12,19 @@ import com.lmax.disruptor.dsl.ProducerType;
 
 @SuppressWarnings({"rawtypes","unchecked"})
 public class BaseDisruptorConfiguratorTest {
-	private BaseDisruptorConfigurator disruptorConfigurator;
+	private BaseDisruptorConfig disruptorConfigurator;
 	private static final String THREAD_NAME = "namo";
 	private static final int ringBufferSize = 16;
 	
 	@Before
 	public void setup(){
-		disruptorConfigurator = new BaseDisruptorConfigurator() {
+		disruptorConfigurator = new BaseDisruptorConfig() {
 
 			@Override
-			protected void disruptorExceptionHandler() {}
+			public void disruptorExceptionHandler() {}
 
 			@Override
-			protected void disruptorEventHandler() {}
+			public void disruptorEventHandler() {}
 
 			@Override
 			public void publish(EventTranslator eventTranslator) {}

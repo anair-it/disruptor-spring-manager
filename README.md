@@ -60,7 +60,7 @@ The spring configuration is based on the Consumer Dependency diamond graph that 
 
 Spring configuration:    
 
-	<bean id="billingDisruptor" class="org.anair.disruptor.DisruptorConfig"
+	<bean id="billingDisruptor" class="org.anair.disruptor.DefaultDisruptorConfig"
 		init-method="init" destroy-method="controlledShutdown">
 
 		<property name="threadName" value="billingThread" />

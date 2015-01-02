@@ -8,14 +8,14 @@ import javax.management.NotCompliantMBeanException;
 import javax.management.ObjectName;
 import javax.management.StandardMBean;
 
-import org.anair.disruptor.DisruptorConfig;
+import org.anair.disruptor.DefaultDisruptorConfig;
 import org.apache.log4j.Logger;
 
 /**
  * Exposes LMAX disruptor attributes and operations in a JMX MBean.
  * <p>Used by {@link JmxDisruptorManager} to resgiter this as a MBean.
  * 
- * <p>Exposed attributes and operations are accessed from {@link DisruptorConfig}. 
+ * <p>Exposed attributes and operations are accessed from {@link DefaultDisruptorConfig}. 
  * Operation and attribute descriptions are defined here. 
  * 
  * @author Anoop Nair
@@ -27,11 +27,11 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 
 	private static final Logger LOG = Logger.getLogger(JmxDisruptor.class);
 	
-	private DisruptorConfig disruptorConfig;
+	private DefaultDisruptorConfig disruptorConfig;
 	private ObjectName objectName;
 	private String beanName;
 	
-	public JmxDisruptor(DisruptorConfig disruptorConfig, String beanName) throws NotCompliantMBeanException {
+	public JmxDisruptor(DefaultDisruptorConfig disruptorConfig, String beanName) throws NotCompliantMBeanException {
 		super(JmxDisruptorMBean.class);
 		this.disruptorConfig = disruptorConfig;
 		this.beanName = beanName;

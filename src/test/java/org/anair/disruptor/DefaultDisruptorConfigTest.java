@@ -9,15 +9,15 @@ import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.EventTranslator;
 
 @SuppressWarnings({"rawtypes","unchecked"})
-public class DisruptorConfigTest {
+public class DefaultDisruptorConfigTest {
 	
-	private DisruptorConfig disruptorConfig;
+	private DefaultDisruptorConfig disruptorConfig;
 	private static final String THREAD_NAME = "namo";
 	private static final int ringBufferSize = 16;
 	
 	@Before
 	public void setup(){
-		disruptorConfig = new DisruptorConfig();
+		disruptorConfig = new DefaultDisruptorConfig();
 		disruptorConfig.setRingBufferSize(ringBufferSize);
 		disruptorConfig.setThreadName(THREAD_NAME);
 		disruptorConfig.setEventFactory(new SampleEventFactory());

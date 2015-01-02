@@ -18,9 +18,9 @@ import com.lmax.disruptor.dsl.ProducerType;
  *
  * @param <T>
  */
-public abstract class BaseDisruptorConfigurator<T> extends AbstractDisruptorLifecycleManager<T>  {
+public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleManager<T> implements DisruptorConfig<T>  {
 
-	private static final Logger LOG = Logger.getLogger(BaseDisruptorConfigurator.class);
+	private static final Logger LOG = Logger.getLogger(BaseDisruptorConfig.class);
 	private int ringBufferSize = 1024;
 	private ProducerType producerType = ProducerType.SINGLE;
 	private WaitStrategyType waitStrategyType = WaitStrategyType.BLOCKING;
@@ -59,18 +59,21 @@ public abstract class BaseDisruptorConfigurator<T> extends AbstractDisruptorLife
 	/**
 	 * Handle Disruptor exceptions 
 	 */
-	protected abstract void disruptorExceptionHandler();
+	@Override
+	public abstract void disruptorExceptionHandler();
 	
 	/**
 	 * Design a Event Processor/Consumer definition. 
 	 */
-	protected abstract void disruptorEventHandler();
+	@Override
+	public abstract void disruptorEventHandler();
 	
 	/**
 	 * Publish an event to the ring buffer using event translator.
 	 * 
 	 * @param translator
 	 */
+	@Override
 	public abstract void publish(EventTranslator<T> eventTranslator); 
 	
 	private void createThreadExecutor() {

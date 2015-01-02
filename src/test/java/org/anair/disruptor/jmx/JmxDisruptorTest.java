@@ -9,7 +9,7 @@ import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
 import javax.management.NotCompliantMBeanException;
 
-import org.anair.disruptor.DisruptorConfig;
+import org.anair.disruptor.DefaultDisruptorConfig;
 import org.anair.disruptor.WaitStrategyType;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ import com.lmax.disruptor.dsl.ProducerType;
 public class JmxDisruptorTest {
 
 	private JmxDisruptor jmxDisruptor;
-	private DisruptorConfig mockDisruptorConfig;
+	private DefaultDisruptorConfig mockDisruptorConfig;
 	private MBeanInfo mockMBeanInfo;
 	private MBeanAttributeInfo mockMBeanAttribute;
 	private MBeanOperationInfo mockMBeanOperation;
@@ -28,7 +28,7 @@ public class JmxDisruptorTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		mockDisruptorConfig = createMock(DisruptorConfig.class);
+		mockDisruptorConfig = createMock(DefaultDisruptorConfig.class);
 		mockMBeanInfo = createMock(MBeanInfo.class);
 		mockMBeanAttribute = createMock(MBeanAttributeInfo.class);
 		mockMBeanOperation = createMock(MBeanOperationInfo.class);
