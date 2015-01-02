@@ -56,23 +56,12 @@ public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleM
 		LOG.info("Created and configured LMAX disruptor "+ disruptorConfigString);
 	}
 	
-	/**
-	 * Handle Disruptor exceptions 
-	 */
 	@Override
 	public abstract void disruptorExceptionHandler();
 	
-	/**
-	 * Design a Event Processor/Consumer definition. 
-	 */
 	@Override
 	public abstract void disruptorEventHandler();
 	
-	/**
-	 * Publish an event to the ring buffer using event translator.
-	 * 
-	 * @param translator
-	 */
 	@Override
 	public abstract void publish(EventTranslator<T> eventTranslator); 
 	
