@@ -124,4 +124,4 @@ JMX
 Design Diagrams
 ----
 ###Disruptor Class diagram
-![Class diagram](design/disruptor-class.PNG)
+![Class diagram](design/disruptor-class.png)
