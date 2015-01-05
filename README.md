@@ -21,7 +21,7 @@ Software Prerequisites
 
 Versions used
 -----
-- Spring: 3.2.3-RELEASE    
+- Spring: 3.2.13    
 - LMAX Disruptor: 3.3.0       
 
 Example project
