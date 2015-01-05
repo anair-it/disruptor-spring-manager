@@ -119,3 +119,9 @@ JMX
 		p:mBeanServer-ref="mbeanServer"/> 
 3.On application context startup, all Disruptor beans will be automatically identified and registered as MBeans         
 4.View Disruptor MBeans through JConsole/Visual VM     
+
+
+Design Diagrams
+----
+###Disruptor Class diagram
+![Class diagram](design/disruptor-class.PNG)
