@@ -17,7 +17,7 @@ public class NamedThreadFactoryTest {
 			public void run() {}
 		});
 		
-		assertEquals(THREAD_NAME, thread.getName());
+		assertTrue(thread.getName().matches(THREAD_NAME+"-\\d*"));
 		assertTrue(thread.isDaemon());
 	}
 
