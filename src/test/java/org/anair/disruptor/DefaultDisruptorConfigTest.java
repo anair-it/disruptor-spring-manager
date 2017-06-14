@@ -28,7 +28,7 @@ public class DefaultDisruptorConfigTest {
 		disruptorConfig.controlledShutdown();
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=NullPointerException.class)
 	public void test_EventHandlerChain_null() {
 		disruptorConfig.init();
 	}

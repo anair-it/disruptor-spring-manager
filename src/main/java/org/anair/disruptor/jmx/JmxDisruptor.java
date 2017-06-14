@@ -9,7 +9,8 @@ import javax.management.ObjectName;
 import javax.management.StandardMBean;
 
 import org.anair.disruptor.DefaultDisruptorConfig;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Exposes LMAX disruptor attributes and operations in a JMX MBean.
@@ -25,7 +26,7 @@ import org.apache.log4j.Logger;
 public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 	private static final String DISRUPTOR_JMX_MBEAN_NAME = "disruptor-spring:type=disruptor,name=";
 
-	private static final Logger LOG = Logger.getLogger(JmxDisruptor.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JmxDisruptor.class);
 	
 	private DefaultDisruptorConfig disruptorConfig;
 	private ObjectName objectName;
@@ -141,11 +142,6 @@ public class JmxDisruptor extends StandardMBean implements JmxDisruptorMBean {
 	@Override
 	public void awaitAndShutdown(long time) {
 		disruptorConfig.awaitAndShutdown(time);
-	}
-
-	@Override
-	public void resetRingbuffer(long sequence) {
-		disruptorConfig.resetRingbuffer(sequence);
 	}
 
 	@Override

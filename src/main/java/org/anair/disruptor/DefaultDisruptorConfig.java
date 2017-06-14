@@ -1,9 +1,10 @@
 package org.anair.disruptor;
 
 import org.anair.disruptor.exception.DisruptorExceptionHandler;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventTranslator;
 import com.lmax.disruptor.dsl.EventHandlerGroup;
@@ -66,7 +67,7 @@ import com.lmax.disruptor.dsl.ProducerType;
  * @param <T>
  */
 public class DefaultDisruptorConfig<T> extends BaseDisruptorConfig<T>{
-	private static final Logger LOG = Logger.getLogger(DefaultDisruptorConfig.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultDisruptorConfig.class);
 
 	private EventHandlerChain<T>[] eventHandlerChain;
 
@@ -84,7 +85,7 @@ public class DefaultDisruptorConfig<T> extends BaseDisruptorConfig<T>{
 
 	@Override
 	public void disruptorExceptionHandler() {
-		getDisruptor().handleExceptionsWith(new DisruptorExceptionHandler(getThreadName()));
+		getDisruptor().setDefaultExceptionHandler(new DisruptorExceptionHandler<T>(getThreadName()));
 	}
 	
 	private void disruptorEventHandlerChain() {

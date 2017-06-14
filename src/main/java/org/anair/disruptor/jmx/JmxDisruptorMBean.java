@@ -15,8 +15,6 @@ public interface JmxDisruptorMBean {
 	
 	void awaitAndShutdown(long time);
 	
-	void resetRingbuffer(long sequence);
-	
 	void publishToRingbuffer(long sequence);
 	
 	String getDisruptorConfiguration();

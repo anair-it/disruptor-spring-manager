@@ -1,9 +1,10 @@
 package org.anair.disruptor;
 
-import java.util.concurrent.Executors;
+import java.util.StringJoiner;
 
-import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventFactory;
 import com.lmax.disruptor.EventTranslator;
@@ -20,7 +21,7 @@ import com.lmax.disruptor.dsl.ProducerType;
  */
 public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleManager<T> implements DisruptorConfig<T>  {
 
-	private static final Logger LOG = Logger.getLogger(BaseDisruptorConfig.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BaseDisruptorConfig.class);
 	private int ringBufferSize = 1024;
 	private ProducerType producerType = ProducerType.SINGLE;
 	private WaitStrategyType waitStrategyType = WaitStrategyType.BLOCKING;
@@ -32,7 +33,7 @@ public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleM
 		Validate.notNull(getThreadName());
 		Validate.notNull(getEventFactory());
 		
-		createThreadExecutor();
+		createThreadFactory();
 		configureDisruptor();
 		
 		disruptorExceptionHandler();
@@ -43,12 +44,12 @@ public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleM
 	
 	private void configureDisruptor(){
 		String disruptorConfigString = getDisruptorConfiguration();
-		LOG.debug("Going to create a LMAX disruptor "+ disruptorConfigString);
+		LOG.info("Going to create a LMAX disruptor "+ disruptorConfigString);
 		
 		setDisruptor(new Disruptor<T>(
 				getEventFactory(),
 				getRingBufferSize(),
-				getExecutor(),
+				getThreadFactory(),
 				getProducerType(),
 				getWaitStrategyType().instance()
 		));
@@ -65,26 +66,16 @@ public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleM
 	@Override
 	public abstract void publish(EventTranslator<T> eventTranslator); 
 	
-	private void createThreadExecutor() {
-		super.setExecutor(Executors.newCachedThreadPool(new NamedThreadFactory(getThreadName())));
-		LOG.debug("Created a cache thread pool based disruptor with name: " + getThreadName());
+	private void createThreadFactory() {
+		super.setThreadFactory(new NamedThreadFactory(getThreadName()));
 	}
 	
 	public String getDisruptorConfiguration() {
-		StringBuilder str = new StringBuilder();
-		str.append("{");
-		str.append("Thread Name: ");
-		str.append(getThreadName());
-		str.append(" | ");
-		str.append("Ringbuffer slot size: ");
-		str.append(getRingBufferSize());
-		str.append(" | ");
-		str.append("Producer type: ");
-		str.append(getProducerType());
-		str.append(" | ");
-		str.append("Wait strategy: ");
-		str.append(getWaitStrategyType());
-		str.append("}");
+		StringJoiner str = new StringJoiner(" | ", "{", "}");
+		str.add("Thread Name: " + getThreadName());
+		str.add("Ringbuffer slot size: " + getRingBufferSize());
+		str.add("Producer type: " + getProducerType().name());
+		str.add("Wait strategy: " + getWaitStrategyType().name());
 		return str.toString();
 	}
 	
@@ -98,10 +89,6 @@ public abstract class BaseDisruptorConfig<T> extends AbstractDisruptorLifecycleM
 	
 	public long getRemainingCapacity() {
 		return getRingBuffer().remainingCapacity();
-	}
-	
-	public void resetRingbuffer(long sequence) {
-		getRingBuffer().resetTo(sequence);
 	}
 	
 	public void publishToRingbuffer(long sequence) {

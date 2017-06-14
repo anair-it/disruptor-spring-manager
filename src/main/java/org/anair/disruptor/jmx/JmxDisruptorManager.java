@@ -5,8 +5,9 @@ import java.util.Map;
 import javax.management.MBeanServer;
 
 import org.anair.disruptor.DefaultDisruptorConfig;
-import org.apache.commons.collections.MapUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.collections4.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -24,7 +25,7 @@ import org.springframework.context.ApplicationContextAware;
  */
 @SuppressWarnings("rawtypes")
 public class JmxDisruptorManager implements ApplicationContextAware{
-	private static final Logger LOG = Logger.getLogger(JmxDisruptorManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(JmxDisruptorManager.class);
 	
 	private ApplicationContext applicationContext;
 	private MBeanServer mBeanServer;

@@ -1,7 +1,9 @@
 package org.anair.disruptor;
 
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.Validate;
+import java.util.StringJoiner;
+
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.Validate;
 
 import com.lmax.disruptor.EventHandler;
 
@@ -43,26 +45,21 @@ public class EventHandlerChain<T> {
 	 * 
 	 */
 	public String printDependencyGraph() {
-		StringBuilder str = new StringBuilder();
-		
+		StringJoiner str = new StringJoiner(" | ", "{", "}");
 		//print current Event handlers
 		printEventHandlers(str, getCurrentEventHandlers());
 		
 		//print dependent Event handlers
 		if(! ArrayUtils.isEmpty(getNextEventHandlers())){
-			str.append(" -> ");	
+			str.add(" -> ");	
 			printEventHandlers(str, getNextEventHandlers());
 		}
 		return str.toString();
 	}
 
-	private void printEventHandlers(StringBuilder str, EventHandler<T>[] eventHandlers) {
-		str.append("{");
+	private void printEventHandlers(StringJoiner str, EventHandler<T>[] eventHandlers) {
 		for(int j=0;j<eventHandlers.length;j++){
-			str.append(eventHandlers[j].getClass().getSimpleName());
-			str.append(" | ");
+			str.add(eventHandlers[j].getClass().getSimpleName());
 		}
-		str.delete(str.length()-3, str.length());
-		str.append("}");
 	}
 }

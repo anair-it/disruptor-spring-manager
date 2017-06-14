@@ -1,9 +1,10 @@
 package org.anair.disruptor;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.TimeoutException;
 import com.lmax.disruptor.dsl.Disruptor;
@@ -17,40 +18,35 @@ import com.lmax.disruptor.dsl.Disruptor;
  */
 public abstract class AbstractDisruptorLifecycleManager<T> implements DisruptorLifecycle<T>{
 
-	private static final Logger LOG = Logger.getLogger(AbstractDisruptorLifecycleManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractDisruptorLifecycleManager.class);
 	private Disruptor<T> disruptor;
-	private ExecutorService executor;
+	private ThreadFactory threadFactory;
 	private String threadName;
 	
 	public abstract void init();
 	
 	@Override
 	public void controlledShutdown() {
-		LOG.debug("Disruptor and executor '" + getThreadName() + "' is going to shutdown.");
+		LOG.debug("Disruptor {} is going to shutdown.", getThreadName());
 		disruptor.shutdown();
-		executor.shutdown();
-		LOG.info("Disruptor and executor '" + getThreadName() + "' has shutdown.");
+		LOG.info("Disruptor {} has shutdown.", getThreadName());
 	}
 
 	@Override
 	public void halt() {
-		LOG.debug("Disruptor and executor '" + getThreadName() + "' is going to shutdown.");
-		executor.shutdownNow();
+		LOG.debug("Disruptor {} is going to shutdown.", getThreadName());
 		disruptor.halt();
-		LOG.info("Disruptor and executor '" + getThreadName() + "' has halted.");
+		LOG.info("Disruptor {} has halted.", getThreadName());
 	}
 
 	@Override
 	public void awaitAndShutdown(long time) {
 		try {
-			LOG.debug("Disruptor and executor '" + getThreadName() + "' is going to shutdown in " + time + TimeUnit.SECONDS);
+			LOG.debug("Disruptor {} is going to shutdown in {} {}", getThreadName(), time, TimeUnit.SECONDS);
 			disruptor.shutdown(time, TimeUnit.SECONDS);
-			executor.awaitTermination(time, TimeUnit.SECONDS);
-			LOG.info("Disruptor and executor '" + getThreadName() + "' has shutdown after " + time + " seconds.");
-		} catch(InterruptedException e) {
-			Thread.currentThread().interrupt();
+			LOG.info("Disruptor {} has shutdown after {} {}.", getThreadName(), time, TimeUnit.SECONDS);
 		} catch (TimeoutException e) {
-			LOG.error(e);
+			LOG.error(e.getMessage(),e);
 		}
 	}
 
@@ -66,16 +62,17 @@ public abstract class AbstractDisruptorLifecycleManager<T> implements DisruptorL
 		return disruptor;
 	}
 
-	protected ExecutorService getExecutor() {
-		return executor;
-	}
-
 	protected void setDisruptor(Disruptor<T> disruptor) {
 		this.disruptor = disruptor;
 	}
 
-	protected void setExecutor(ExecutorService executor) {
-		this.executor = executor;
+	protected ThreadFactory getThreadFactory() {
+		return threadFactory;
 	}
+
+	protected void setThreadFactory(ThreadFactory threadFactory) {
+		this.threadFactory = threadFactory;
+	}
+
 
 }

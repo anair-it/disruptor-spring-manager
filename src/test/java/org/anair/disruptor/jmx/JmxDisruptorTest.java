@@ -208,16 +208,6 @@ public class JmxDisruptorTest {
 	}
 	
 	@Test 
-	public void test_resetRingbuffer(){
-		long seq = 1;
-		mockDisruptorConfig.resetRingbuffer(seq);
-		replay(mockDisruptorConfig);
-		
-		jmxDisruptor.resetRingbuffer(seq);
-		verify(mockDisruptorConfig);
-	}
-	
-	@Test 
 	public void test_publishToRingbuffer(){
 		long seq = 1;
 		mockDisruptorConfig.publishToRingbuffer(seq);

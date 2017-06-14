@@ -55,11 +55,6 @@ public class BaseDisruptorConfiguratorTest {
 	}
 
 	@Test
-	public void test_RingBuffer_Reset() {
-		disruptorConfigurator.resetRingbuffer(0);
-	}
-	
-	@Test
 	public void test_RingBuffer_Publisg() {
 		int seq = 2;
 		disruptorConfigurator.publishToRingbuffer(seq);

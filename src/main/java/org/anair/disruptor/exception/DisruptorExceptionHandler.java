@@ -1,6 +1,10 @@
 package org.anair.disruptor.exception;
 
-import org.apache.log4j.Logger;
+
+import java.util.StringJoiner;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.ExceptionHandler;
 
@@ -12,8 +16,8 @@ import com.lmax.disruptor.ExceptionHandler;
  * @author Anoop Nair
  *
  */
-public class DisruptorExceptionHandler implements ExceptionHandler {
-	private static final Logger LOG = Logger.getLogger(DisruptorExceptionHandler.class);
+public class DisruptorExceptionHandler<T> implements ExceptionHandler<T> {
+	private static final Logger LOG = LoggerFactory.getLogger(DisruptorExceptionHandler.class);
 	protected String errorPrefix = "Ringbuffer Disruptor failed for thread: ";
 
 	
@@ -22,16 +26,15 @@ public class DisruptorExceptionHandler implements ExceptionHandler {
 	}
 
 	@Override
-	public void handleEventException(Throwable ex, long sequence, Object event) {
-		StringBuilder str = new StringBuilder(errorPrefix);
-		str.append("Sequence: ");
-		str.append(sequence);
-		str.append(" | ");
-		str.append("Event: ");
-		str.append(event);
-		str.append(" | ");
-		str.append("Exception message: ");
-		str.append(ex.getMessage());
+	public void handleEventException(Throwable ex, long sequence, T event) {
+		StringJoiner str = new StringJoiner(" | ");
+		str.add(errorPrefix);
+		str.add("Sequence: ");
+		str.add(sequence+"");
+		str.add("Event: ");
+		str.add(event.toString());
+		str.add("Exception message: ");
+		str.add(ex.getMessage());
 		LOG.error(str.toString(), ex);
 		
 		throw new RuntimeException(ex);
@@ -39,7 +42,7 @@ public class DisruptorExceptionHandler implements ExceptionHandler {
 
 	@Override
 	public void handleOnStartException(Throwable ex) {
-		LOG.fatal(errorPrefix + ex.getMessage(), ex);
+		LOG.error(errorPrefix + ex.getMessage(), ex);
 	}
 
 	@Override
